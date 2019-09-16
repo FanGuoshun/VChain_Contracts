@@ -42,9 +42,7 @@ def init():
 @contract.method('create_account')
 def create_account(inputs, reference_inputs, parameters, pub):
     # new account
-    balance = loads(parameters[0])
-    new_account = {'type': 'BankAccount', 'pub': pub, 'balance': balance}
-
+    new_account = {'type': 'BankAccount', 'pub': pub, 'balance': 10}
     # return
     return {
         'outputs': (inputs[0], dumps(new_account))
