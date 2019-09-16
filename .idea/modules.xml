@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Vchain_Contracts.iml" filepath="$PROJECT_DIR$/Vchain_Contracts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VChain_Contracts.iml" filepath="$PROJECT_DIR$/VChain_Contracts.iml" />
     </modules>
   </component>
 </project>
