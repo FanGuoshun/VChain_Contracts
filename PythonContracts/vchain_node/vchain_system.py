@@ -24,6 +24,10 @@ def create_account(inputs, reference_inputs, parameters, pub):
     balance = loads(parameters[0])
     new_account = {'type': 'BankAccount', 'pub': pub, 'balance': balance}
     # return
+    # update balance
+    with open("balance.txt", "w+") as f:
+        f.write(str(balance))
+    f.close()
     return {
         'outputs': (inputs[0], dumps(new_account))
     }
@@ -47,7 +51,10 @@ def join(inputs, reference_inputs, parameters, priv):
     # sign message
     G = setup()[0]
     sig = do_ecdsa_sign(G, unpack(priv), hasher.digest())
-
+    # update balance
+    with open("balance.txt", "w+") as f:
+        f.write(str(new_from_account['balance']))
+    f.close()
     return {
         'outputs': (dumps(new_from_account), dumps(new_to_account)),
         'extra_parameters': (pack(sig),)
@@ -72,7 +79,10 @@ def maintain(inputs, reference_inputs, parameters, priv):
     # sign message
     G = setup()[0]
     sig = do_ecdsa_sign(G, unpack(priv), hasher.digest())
-
+    # update balance
+    with open("balance.txt", "w+") as f:
+        f.write(str(new_from_account['balance']))
+    f.close()
     return {
         'outputs': (dumps(new_from_account), dumps(new_to_account)),
         'extra_parameters': (pack(sig),)
@@ -93,7 +103,10 @@ def active_quit(inputs, reference_inputs, parameters, priv):
     hasher.update(dumps(inputs).encode('utf8'))
     hasher.update(dumps(reference_inputs).encode('utf8'))
     # hasher.update(dumps(parameters[0]).encode('utf8'))
-
+    # update balance
+    with open("balance.txt", "w+") as f:
+        f.write(str(new_from_account['balance'] + 3))
+    f.close()
     # sign message
     G = setup()[0]
     sig = do_ecdsa_sign(G, unpack(priv), hasher.digest())
@@ -126,11 +139,6 @@ def create_account_checker(inputs, reference_inputs, parameters, outputs, return
             return False
         if output_account['type'] != 'BankAccount':
             return False
-
-        # update balance
-        with open("balance.txt", "w+") as f:
-            f.write(str(balance))
-        f.close()
 
         return True
 
@@ -183,10 +191,6 @@ def join_checker(inputs, reference_inputs, parameters, outputs, returns, depende
         # verify signature
         (G, _, _, _) = setup()
         flag = do_ecdsa_verify(G, pub, sig, hasher.digest())
-        # update balance
-        with open("balance.txt", "w+") as f:
-            f.write(str(output_from_account['balance']))
-        f.close()
 
         print "Welcome to VChain!"
         return flag
@@ -240,10 +244,6 @@ def maintain_checker(inputs, reference_inputs, parameters, outputs, returns, dep
         # verify signature
         (G, _, _, _) = setup()
         flag = do_ecdsa_verify(G, pub, sig, hasher.digest())
-        # update balance
-        with open("balance.txt", "w+") as f:
-            f.write(str(output_from_account['balance']))
-        f.close()
 
         print "maintain successfully!"
 
@@ -294,10 +294,6 @@ def active_quit_checker(inputs, reference_inputs, parameters, outputs, returns, 
         # verify signature
         (G, _, _, _) = setup()
         flag = do_ecdsa_verify(G, pub, sig, hasher.digest())
-        # update balance
-        with open("balance.txt", "w+") as f:
-            f.write(str(output_from_account['balance'] + 3))
-        f.close()
 
         print "See you!"
 
