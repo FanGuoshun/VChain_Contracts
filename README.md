@@ -9,7 +9,7 @@
 ### create_account_checker: 验证create_account的正确性
 ### join_checker: 验证join的正确性
 ### maintain_checker: 验证join的正确性
-### active_quit_checker: 验证active的正确性
+### active_quit_checker: 验证active_quit的正确性
 ## 记录文件:
 ### pub_priv.txt: 记录用户生成的公私钥对
 ### balance.txt: 记录结点账户的余额
